@@ -3,23 +3,26 @@ const cors    = require('cors');
 require('dotenv').config();
 
 const app = express();
-app.use(cors({
-  origin: [
-    'https://projet-fire-watch.vercel.app',
-    'http://localhost:4200'
-  ],
-  methods: ['GET', 'POST', 'PATCH', 'PUT', 'DELETE'],
-  allowedHeaders: ['Content-Type', 'Authorization']
-}));
+
+// CORS permissif pour déboguer
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Methods', 'GET, POST, PATCH, PUT, DELETE, OPTIONS');
+  res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+  if (req.method === 'OPTIONS') {
+    return res.sendStatus(200);
+  }
+  next();
+});
+
 app.use(express.json());
 
 // Routes
-app.use('/api/capteurs',    require('./routes/capteurs'));
-app.use('/api/historique',  require('./routes/historique'));
-app.use('/api/alertes',     require('./routes/alertes'));
-app.use('/api/autorites', require('./routes/autorites'));
+app.use('/api/capteurs',   require('./routes/capteurs'));
+app.use('/api/historique', require('./routes/historique'));
+app.use('/api/alertes',    require('./routes/alertes'));
+app.use('/api/autorites',  require('./routes/autorites'));
 
-// Test de vie
 app.get('/', (req, res) => {
   res.json({ status: 'FireWatch API en ligne' });
 });
