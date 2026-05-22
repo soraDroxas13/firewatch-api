@@ -11,7 +11,14 @@ router.get('/', async (req, res) => {
     `);
     res.json(rows);
   } catch (err) {
-    res.status(500).json({ error: err.message });
+  
+    console.error('ERREUR CONNEXION CAPTEUR :');
+    console.error(err);
+  
+    res.status(500).json({
+      error: err.message,
+      stack: err.stack
+    });
   }
 });
 
@@ -28,7 +35,14 @@ router.post('/update', async (req, res) => {
     `, [valeur_fumee || 0, valeur_temp || 0, valeur_hum || 0, identifiant]);
     res.json({ success: true });
   } catch (err) {
-    res.status(500).json({ error: err.message });
+  
+    console.error('ERREUR CONNEXION CAPTEUR :');
+    console.error(err);
+  
+    res.status(500).json({
+      error: err.message,
+      stack: err.stack
+    });
   }
 });
 
@@ -79,7 +93,14 @@ router.post('/enregistrer', async (req, res) => {
 
     res.json({ success: true, capteur_id, zone_id, zone_nom: nom_lieu });
   } catch (err) {
-    res.status(500).json({ error: err.message });
+  
+    console.error('ERREUR CONNEXION CAPTEUR :');
+    console.error(err);
+  
+    res.status(500).json({
+      error: err.message,
+      stack: err.stack
+    });
   }
 });
 
@@ -107,7 +128,14 @@ router.post('/connexion', async (req, res) => {
       type_capteur: c.type_capteur, est_actif: c.est_actif
     });
   } catch (err) {
-    res.status(500).json({ error: err.message });
+  
+    console.error('ERREUR CONNEXION CAPTEUR :');
+    console.error(err);
+  
+    res.status(500).json({
+      error: err.message,
+      stack: err.stack
+    });
   }
 });
 
